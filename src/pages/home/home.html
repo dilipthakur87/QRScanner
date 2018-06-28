@@ -13,9 +13,9 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content *ngIf="isSanning" padding style="background: none transparent;">
+<ion-content padding style="background: none transparent;">
   
-  <ion-fab bottom right margin>
+  <ion-fab *ngIf="isSanning" bottom right margin>
     <button ion-fab><ion-icon name="md-options"></ion-icon></button>
     <ion-fab-list side="top">
       <button (click)="toggleFlashLight()" ion-fab><ion-icon name="flash">
@@ -26,19 +26,32 @@
     </ion-fab-list>
   </ion-fab>
     
-  <ion-fab bottom left margin>
+  <ion-fab *ngIf="isSanning" bottom left margin>
     <button ion-fab (click)="btnStar()">Click</button>
   </ion-fab>
   <!-- <button ion-button round bottom icon-end>Round Button</button> -->
+
+  <!-- <ion-card >
+    <ion-card-content>
+      Result from Scan: {{ scannedCode }}
+    </ion-card-content>
+  </ion-card>   -->
 
 </ion-content>
 
 <ion-content *ngIf="scannedCode" padding style="background: none transparent;">
 
-    <!-- <ion-card>
-      <ion-card-content> -->
-        Result from Scan: {{ scannedCode }}
-      <!-- </ion-card-content>
-    </ion-card> -->
+  <ion-grid style="height: 100%">
+    <ion-row justify-content-center align-items-center style="height: 100%">
+      <ion-card center>
+        <ion-card-header>
+          Scan result
+        </ion-card-header>
+        <ion-card-content>
+          {{ scannedCode }}
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
   
 </ion-content>

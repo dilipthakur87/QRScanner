@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { HomePage } from '../home/home';
 
 /**
@@ -16,7 +16,10 @@ import { HomePage } from '../home/home';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public platform: Platform) {
+    // platform.registerBackButtonAction(function(event) {
+    //   this.home();
+    // }, 101);
   }
 
   ionViewDidLoad() {
@@ -25,6 +28,6 @@ export class AboutPage {
 
   home() {
     this.navCtrl.push(HomePage);
-  }
+  }  
 
 }

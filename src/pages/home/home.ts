@@ -33,12 +33,17 @@ constructor(platform: Platform,
               })
 }
 
+ionViewWillEnter() {
+  this.scan();
+}
+
 scan() {
   this.showCamera();
   // Optionally request the permission early
   this.qrScanner.prepare()
     .then((status: QRScannerStatus) => {
       if (status.authorized) {
+        this.scannedCode = null;
         this.isSanning = true;
         // camebtnStarra permission was granted
         console.log('Camera Permission Given');
@@ -46,11 +51,13 @@ scan() {
         // start scanning
         this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
           // this.presentToast(text);
+          this.isSanning = false;
           this.scannedCode = text;
+          this.presentToast(this.scannedCode);
+          // this.isSanning = false;
           this.qrScanner.hide(); // hide camera preview
           this.scanSub.unsubscribe(); // stop scanning
           this.hideCamera()
-          this.isSanning = false;
           this.stopScan();
         });
 
@@ -81,9 +88,9 @@ stopScan() {
 
 
 btnStar() {
-  this.qrScanner.hide(); // hide camera preview
-  this.scanSub.unsubscribe(); // stop scanning
-  this.hideCamera()
+  // this.qrScanner.hide(); // hide camera preview
+  // this.scanSub.unsubscribe(); // stop scanning
+  // this.hideCamera()
   console.log("You pressed the button");
   this.navCtrl.push(AboutPage);
   // let modal = this.modalCtrl.create( AboutPage );
@@ -123,7 +130,7 @@ btnStar() {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 3000,
-      position: 'top'
+      position: 'bottom'
     });
 
     toast.onDidDismiss(() => {
@@ -134,11 +141,11 @@ btnStar() {
   }
 
 
-  // ionViewWillLeave(){
-  //   this.qrScanner.hide(); // hide camera preview
-  //   this.scanSub.unsubscribe(); // stop scanning
-  //   this.hideCamera();
-  // }
+  ionViewWillLeave(){
+    this.qrScanner.hide(); // hide camera preview
+    this.scanSub.unsubscribe(); // stop scanning
+    this.hideCamera();
+  }
 
   showCamera() {
     (window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
