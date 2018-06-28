@@ -26,7 +26,8 @@ constructor(platform: Platform,
             public modalCtrl: ModalController,
             public qrScanner: QRScanner,
             public toastCtrl: ToastController) {
-
+              this.isSanning = true;
+              this.scannedCode = null;
               platform.ready().then(() => {
                 this.scan();
               })
@@ -44,7 +45,7 @@ scan() {
 
         // start scanning
         this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
-          this.presentToast(text);
+          // this.presentToast(text);
           this.scannedCode = text;
           this.qrScanner.hide(); // hide camera preview
           this.scanSub.unsubscribe(); // stop scanning
