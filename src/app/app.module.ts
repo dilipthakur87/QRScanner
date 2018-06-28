@@ -6,13 +6,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { AboutPage } from '../pages/about/about'
 
 import { QRScanner } from '@ionic-native/qr-scanner';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    HomePage,
+    AboutPage
   ],
   imports: [
     BrowserModule,
@@ -21,7 +23,8 @@ import { QRScanner } from '@ionic-native/qr-scanner';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    AboutPage
   ],
   providers: [
     StatusBar,

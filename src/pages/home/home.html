@@ -7,14 +7,13 @@
 
   <ion-navbar>
     <ion-title>ScanQR</ion-title>
-    <ion-buttons end > <button ion-button (click)="closeModal()">
+    <!-- <ion-buttons end > <button ion-button (click)="closeModal()">
       <ion-icon name="close"></ion-icon>
-    </button>  </ion-buttons>
+    </button>  </ion-buttons> -->
   </ion-navbar>
 
 </ion-header>
-
-<ion-content padding  style="background: none transparent;">
+<ion-content *ngIf="isSanning" padding style="background: none transparent;">
   
   <ion-fab bottom right margin>
     <button ion-fab><ion-icon name="md-options"></ion-icon></button>
@@ -26,17 +25,20 @@
 
     </ion-fab-list>
   </ion-fab>
+    
+  <ion-fab bottom left margin>
+    <button ion-fab (click)="btnStar()"><ion-icon name="star"></ion-icon></button>
+  </ion-fab>
+  <!-- <button ion-button round bottom icon-end>Round Button</button> -->
 
 </ion-content>
-<!-- 
-<ion-content *ngIf="scannedCode" padding>
 
-  <button ion-button full icon-left (click)="startScan()" color="secondary"><ion-icon name="qr-scanner"></ion-icon>Scan Code</button>
+<ion-content *ngIf="scannedCode" padding style="background: none transparent;">
 
-  <ion-card>
-    <ion-card-content>
-      Result from Scan: {{ scannedCode }}
-    </ion-card-content>
-  </ion-card>
-
-</ion-content> -->
+    <!-- <ion-card>
+      <ion-card-content> -->
+        Result from Scan: {{ scannedCode }}
+      <!-- </ion-card-content>
+    </ion-card> -->
+  
+</ion-content>

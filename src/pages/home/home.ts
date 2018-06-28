@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, ViewController } from 'ionic-angular';
+import { IonicPage, Platform, NavController, ModalController, NavParams, ToastController, ViewController } from 'ionic-angular';
 
 import { QRScanner , QRScannerStatus } from '@ionic-native/qr-scanner';
 import {Subscriber} from "rxjs/Subscriber";
 import { ThrowStmt } from '@angular/compiler';
+
+import { AboutPage } from '../about/about';
 
 @Component({
   selector: 'page-home',
@@ -11,61 +13,81 @@ import { ThrowStmt } from '@angular/compiler';
 })
 export class HomePage {
 
+  private isSanning: boolean = true;
   private isBackMode: boolean = true;
   private isFlashLightOn: boolean = false;
   public scanSub: any;
   scannedCode = null;
 
-constructor(public navCtrl: NavController,
+constructor(platform: Platform,
+            public navCtrl: NavController,
             public navParams: NavParams,
             public viewController: ViewController,
+            public modalCtrl: ModalController,
             public qrScanner: QRScanner,
             public toastCtrl: ToastController) {
+
+              platform.ready().then(() => {
+                this.scan();
+              })
+}
+
+scan() {
+  this.showCamera();
+  // Optionally request the permission early
+  this.qrScanner.prepare()
+    .then((status: QRScannerStatus) => {
+      if (status.authorized) {
+        this.isSanning = true;
+        // camebtnStarra permission was granted
+        console.log('Camera Permission Given');
+
+        // start scanning
+        this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
+          this.presentToast(text);
+          this.scannedCode = text;
+          this.qrScanner.hide(); // hide camera preview
+          this.scanSub.unsubscribe(); // stop scanning
+          this.hideCamera()
+          this.isSanning = false;
+          this.stopScan();
+        });
+
+        // show camera preview
+        this.qrScanner.show();
+
+        // wait for user to scan something, then the observable callback will be called
+      } else if (status.denied) {
+        // camera permission was permanently denied
+        // you must use QRScanner.openSettings() method to guide the user to the settings page
+        // then they can grant the permission from there
+        console.log('Camera permission denied');
+      } else {
+        // permission was denied, but not permanently. You can ask for permission again at a later time.
+        console.log('Permission denied for this runtime.');
+      }
+    })
+    .catch((e: any) => console.log('Error is', e));
+}
+
+stopScan() {
+
+  setTimeout(() => {
+    console.log("hello")        
+    this.scan();
+  }, 2000);
 }
 
 
-  ionViewWillEnter(){
-    this.showCamera();
-    // Optionally request the permission early
-    this.qrScanner.prepare()
-      .then((status: QRScannerStatus) => {
-        if (status.authorized) {
-          // camera permission was granted
-          console.log('Camera Permission Given');
-
-          // start scanning
-          this.scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            this.presentToast(text);
-            this.scannedCode = text;
-          });
-
-          // show camera preview
-          this.qrScanner.show();
-
-          // wait for user to scan something, then the observable callback will be called
-        } else if (status.denied) {
-          // camera permission was permanently denied
-          // you must use QRScanner.openSettings() method to guide the user to the settings page
-          // then they can grant the permission from there
-          console.log('Camera permission denied');
-        } else {
-          // permission was denied, but not permanently. You can ask for permission again at a later time.
-          console.log('Permission denied for this runtime.');
-        }
-      })
-      .catch((e: any) => console.log('Error is', e));
-  }
-
-  closeModal() {
-    // this.viewController.dismiss();
-    this.qrScanner.hide();
-    this.scanSub.unsubscribe();
-    this.hideCamera();
-  }
-
-  startScan() {
-    this.scannedCode = null;
-  }
+btnStar() {
+  this.qrScanner.hide(); // hide camera preview
+  this.scanSub.unsubscribe(); // stop scanning
+  this.hideCamera()
+  console.log("You pressed the button");
+  this.navCtrl.push(AboutPage);
+  // let modal = this.modalCtrl.create( AboutPage );
+  // modal.present();
+}
 
   toggleFlashLight(){
 
@@ -111,11 +133,11 @@ constructor(public navCtrl: NavController,
   }
 
 
-  ionViewWillLeave(){
-    this.qrScanner.hide(); // hide camera preview
-    this.scanSub.unsubscribe(); // stop scanning
-    this.hideCamera();
-  }
+  // ionViewWillLeave(){
+  //   this.qrScanner.hide(); // hide camera preview
+  //   this.scanSub.unsubscribe(); // stop scanning
+  //   this.hideCamera();
+  // }
 
   showCamera() {
     (window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
