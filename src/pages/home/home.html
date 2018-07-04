@@ -12,6 +12,15 @@
     </button>  </ion-buttons> -->
   </ion-navbar>
 
+  <div *ngIf="isSanning" class="qr-header">
+    <img src="https://s3-ap-southeast-1.amazonaws.com/trregsummits.com/img/logo_tr.png" alt="tr logo" style='height: 40%; margin-left: 30px;'>
+    <h2 style='margin: 0; text-align: left;font-size: 18px;'>Welcome to The ASEAN Regulatory Summit 2018</h2>
+  </div>
+
+  <div *ngIf="isSanning" class="main-header">
+    <h2 style='margin: 0;'>Please scan your email QR code, or &nbsp;&nbsp;</h2><button type="button" name="button" (click) = 'goToSearch()' class='search-button btn btn-primary'>Search by Email</button>
+  </div>
+
 </ion-header>
 <ion-content padding style="background: none transparent;">
   

@@ -1,2 +1,41 @@
 page-home {    
 }
+.qr-header {
+    background: #EF8633;
+  /* padding: 10px; */
+  text-align: center;
+  color: white;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-weight: bold;
+  flex-direction: row-reverse;
+  }
+
+  .main-header{
+    width: 100%;
+    height: 10vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .search-button{
+    /* position: fixed; */
+    /* bottom: 30px; */
+    color: black;
+    background: #D4D4D4;
+    /* padding: 10px; */
+    max-width: 200px;
+    text-align: center;
+    /* font-weight: bold; */
+    border-radius: 50px;
+    /* margin: 0 auto; */
+    /* left: 50%; */
+  /* transform: translateX(-50%); */
+  }

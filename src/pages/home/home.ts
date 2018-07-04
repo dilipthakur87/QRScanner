@@ -147,6 +147,10 @@ btnStar() {
     this.hideCamera();
   }
 
+  goToSearch() {
+    console.log("Search by email");
+  }
+
   showCamera() {
     (window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView');
   }
